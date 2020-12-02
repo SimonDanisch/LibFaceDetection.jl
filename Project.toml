@@ -10,10 +10,4 @@ GeometryBasics = "5c1252a2-5f33-56bf-86c9-59e7332b4326"
 libfacedetection_jll = "d63ee80a-a26b-5956-a0ed-fe8a48e7c1c8"
 
 [compat]
-julia = "1"
-
-[extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test"]
+julia = "1.3"
