@@ -35,6 +35,10 @@ function convert_location(rows::Int, location::FaceLocationRaw)
                         getpoints(rows, location))
 end
 
+if Sys.isapple()
+    run(`nm $(libfacedetection_jll.libfacedetection_path)`)
+end
+
 const FUNC_NAME = if Sys.isapple() || (Sys.iswindows() && Sys.ARCH == :i686)
     :__Z14facedetect_cnnPhS_iii
 else
