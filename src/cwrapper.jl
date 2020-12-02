@@ -35,19 +35,13 @@ function convert_location(rows::Int, location::FaceLocationRaw)
                         getpoints(rows, location))
 end
 
-const FUNC_NAME = if Sys.isapple() || (Sys.iswindows() && Sys.ARCH == :i686)
-    :__Z14facedetect_cnnPhS_iii
-else
-    :_Z14facedetect_cnnPhS_iii
-end
-
 function detect_faces(img)
     buffer = fill(Cuchar(0), 0x20000)
     img_conv = BGR{N0f8}.(permutedims(img))
     # buffer needs to be preserved outside ccall since i think
     # it's used for the return value
     GC.@preserve buffer begin
-        result = ccall((FUNC_NAME, libfacedetection), Ptr{Cint}, (Ptr{Cuchar}, Ptr{Cuchar}, Cint, Cint, Cint),
+        result = ccall((:_Z14facedetect_cnnPhS_iii, libfacedetection), Ptr{Cint}, (Ptr{Cuchar}, Ptr{Cuchar}, Cint, Cint, Cint),
                         buffer, img_conv, size(img, 2), size(img, 1), size(img, 2)*3)
         result == C_NULL && return nothing
         n_faces = unsafe_load(result)
